@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rokhen · Dev & Games</title>
+    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/RokhenDEV/Site_Rokhen/main/Build/Icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0b0e14;
+            --bg-secondary: #141a24;
+            --bg-card: #1e2633;
+            --bg-card-hover: #2a3445;
+            --text-primary: #e8edf5;
+            --text-secondary: #a0b3cc;
+            --text-muted: #6a7f9e;
+            --accent: #6fc3df;
+            --accent-glow: rgba(111, 195, 223, 0.15);
+            --border: #2a3445;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+            --radius: 14px;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            --transition: 0.25s ease;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+        a:hover { color: #8fd8f0; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 20px; border: 2px solid var(--bg-primary); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        header {
+            max-width: 1200px; width: 100%; margin: 0 auto;
+            padding: 1.2rem 0 0.8rem;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+            position: sticky; top: 0;
+            background: rgba(11, 14, 20, 0.85); backdrop-filter: blur(12px);
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            font-family: var(--font-mono);
+            color: var(--text-primary);
+        }
+        .logo-img {
+            height: 40px;
+            width: auto;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            padding: 2px;
+        }
+        .logo span { color: var(--accent); }
+        nav { display: flex; gap: 2rem; align-items: center; flex-wrap: wrap; }
+        nav a { color: var(--text-secondary); font-weight: 500; font-size: 0.95rem; padding: 0.3rem 0; border-bottom: 2px solid transparent; transition: border-color var(--transition), color var(--transition); }
+        nav a:hover { color: var(--text-primary); border-bottom-color: var(--accent); }
+        nav a i { margin-right: 6px; }
+
+        .container { max-width: 1200px; width: 100%; margin: 0 auto; flex: 1; padding: 2rem 0 3rem; }
+
+        .hero { padding: 3rem 0 2.5rem; text-align: center; }
+        .hero h1 { font-size: 3.2rem; font-weight: 700; letter-spacing: -1px; line-height: 1.2; }
+        .hero h1 .highlight { color: var(--accent); background: linear-gradient(135deg, #6fc3df, #4a9bb8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero .tagline { font-size: 1.2rem; color: var(--text-secondary); margin-top: 0.8rem; max-width: 700px; margin-left: auto; margin-right: auto; font-family: var(--font-mono); font-weight: 400; line-height: 1.5; }
+        .hero .tagline i { color: var(--accent); margin: 0 4px; }
+        .hero .badge { margin-top: 1.8rem; display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; }
+        .hero .badge span { background: var(--bg-card); padding: 0.4rem 1.2rem; border-radius: 40px; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); border: 1px solid var(--border); backdrop-filter: blur(4px); display: inline-flex; align-items: center; gap: 8px; }
+        .hero .badge span i { color: var(--accent); }
+
+        section { margin-top: 4rem; scroll-margin-top: 6rem; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 2rem; display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); }
+        .section-title i { color: var(--accent); font-size: 1.6rem; }
+        .section-title::after { content: ''; flex: 1; height: 2px; background: linear-gradient(90deg, var(--border), transparent); }
+
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .about-text p { color: var(--text-secondary); font-size: 1.05rem; margin-bottom: 1.2rem; }
+        .about-text p i { color: var(--accent); margin-right: 6px; }
+        .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .stat-card { background: var(--bg-card); border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center; border: 1px solid var(--border); transition: transform var(--transition), border-color var(--transition); }
+        .stat-card:hover { transform: translateY(-4px); border-color: var(--accent); }
+        .stat-card .number { font-size: 2.2rem; font-weight: 700; font-family: var(--font-mono); color: var(--accent); }
+        .stat-card .label { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+
+        .project-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 0.4rem 1rem;
+            flex: 1;
+            min-width: 200px;
+            transition: border-color var(--transition);
+        }
+        .search-box:focus-within {
+            border-color: var(--accent);
+        }
+        .search-box i {
+            color: var(--text-muted);
+            margin-right: 0.6rem;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            padding: 0.5rem 0;
+            width: 100%;
+            outline: none;
+        }
+        .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .suggestions-box {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.4rem 0;
+            max-height: 220px;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.8);
+        }
+        .suggestions-box.active { display: block; }
+        .suggestion-item {
+            padding: 0.6rem 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: background var(--transition), color var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .suggestion-item:last-child { border-bottom: none; }
+        .suggestion-item:hover,
+        .suggestion-item.active {
+            background: var(--bg-card-hover);
+            color: var(--text-primary);
+        }
+        .suggestion-item .suggestion-icon {
+            color: var(--accent);
+            font-size: 1rem;
+            width: 1.6rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .suggestion-item .suggestion-name {
+            font-weight: 500;
+            flex: 1;
+        }
+        .suggestion-item .suggestion-name .highlight {
+            color: var(--accent);
+            font-weight: 700;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        .suggestion-item .suggestion-category {
+            font-size: 0.7rem;
+            background: var(--bg-primary);
+            padding: 0.15rem 0.7rem;
+            border-radius: 30px;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            flex-shrink: 0;
+        }
+        .suggestions-box::-webkit-scrollbar { width: 5px; }
+        .suggestions-box::-webkit-scrollbar-track { background: transparent; }
+        .suggestions-box::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .filter-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-family: var(--font-sans);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-weight: 500;
+        }
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+        .filter-btn.active {
+            background: var(--accent);
+            color: #0b0e14;
+            border-color: var(--accent);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.8rem;
+        }
+        .project-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.8rem 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+        }
+        .project-card.hidden { display: none; }
+
+        .project-image {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+        }
+        .project-icon-fallback {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        .project-card h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.4rem; }
+        .project-card p { color: var(--text-secondary); font-size: 0.95rem; flex: 1; margin-bottom: 1.2rem; }
+        .project-card .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.2rem; }
+        .project-card .tags span { background: var(--bg-primary); color: var(--text-secondary); font-size: 0.7rem; padding: 0.2rem 0.8rem; border-radius: 30px; border: 1px solid var(--border); font-family: var(--font-mono); }
+        .project-card .card-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid var(--border); padding-top: 1rem; }
+        .project-card .card-footer a { font-weight: 600; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 6px; }
+        .project-card .card-footer a i { font-size: 0.8rem; }
+
+        .contact-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .contact-info h3 {
+            font-size: 1.6rem;
+            margin-bottom: 0.8rem;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+        }
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .contact-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: color var(--transition), transform var(--transition);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+        .contact-links a:hover {
+            color: var(--text-primary);
+            transform: translateX(4px);
+            border-color: var(--accent);
+        }
+        .contact-links a i {
+            width: 1.8rem;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+
+        footer {
+            max-width: 1200px; width: 100%; margin: 2rem auto 0;
+            padding: 1.5rem 0;
+            border-top: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+            color: var(--text-muted); font-size: 0.9rem;
+        }
+        .footer-logo {
+            height: 30px;
+            width: auto;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            padding: 2px;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+        footer .socials { display: flex; gap: 1.2rem; }
+        footer .socials a { color: var(--text-muted); font-size: 1.2rem; transition: color var(--transition), transform var(--transition); }
+        footer .socials a:hover { color: var(--accent); transform: translateY(-2px); }
+
+        @media (max-width: 900px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+            .project-controls { flex-direction: column; align-items: stretch; }
+            .filter-buttons { justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            header { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            nav { gap: 1.2rem; width: 100%; justify-content: space-around; }
+            .hero h1 { font-size: 2rem; }
+            .hero .tagline { font-size: 1rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .about-stats { grid-template-columns: 1fr 1fr; }
+            .section-title { font-size: 1.6rem; }
+            .logo-img { height: 32px; }
+            .footer-logo { height: 24px; }
+        }
+        .cursor-blink { animation: blink 1s step-end infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .terminal-prompt { color: var(--accent); font-family: var(--font-mono); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <img src="https://raw.githubusercontent.com/RokhenDEV/Site_Rokhen/main/Build/Icon.png" 
+                 alt="Logo Rokhen" class="logo-img" />
+            &lt;<span>Rokhen</span>/&gt;
+        </div>
+        <nav>
+            <a href="#sobre"><i class="fas fa-user-astronaut"></i> Sobre</a>
+            <a href="#projetos"><i class="fas fa-code"></i> Projetos</a>
+            <a href="#contato"><i class="fas fa-paper-plane"></i> Contato</a>
+        </nav>
+    </header>
+
+    <div class="container">
+
+        <section class="hero">
+            <h1>
+                <span class="highlight">🚀 Desenvolvedor</span> de Software &amp; Jogos
+            </h1>
+            <div class="tagline">
+                <span class="terminal-prompt">$</span> 
+                <span id="typed-text"></span><span class="cursor-blink">|</span>
+            </div>
+            <div class="badge">
+                <span><i class="fas fa-code"></i> Open Source</span>
+                <span><i class="fas fa-gamepad"></i> Games</span>
+                <span><i class="fas fa-bolt"></i> Performance</span>
+                <span><i class="fas fa-robot"></i> Automações</span>
+            </div>
+        </section>
+
+        <section id="sobre">
+            <h2 class="section-title"><i class="fas fa-user-astronaut"></i> Sobre</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <p>
+                        <i class="fas fa-terminal"></i> Olá! Sou o <strong>Rokhen</strong>, 
+                        apaixonado por criar soluções digitais que unem performance, 
+                        criatividade e código limpo. Atuo no desenvolvimento de software, 
+                        jogos e automações, sempre com a filosofia <strong>Open Source</strong> 
+                        e compartilhamento de conhecimento.
+                    </p>
+                    <p>
+                        <i class="fas fa-rocket"></i> Meu objetivo é transformar ideias em 
+                        produtos funcionais, com design pensado para humanos e eficiência 
+                        de máquina. Aqui você encontra projetos que refletem essa mentalidade.
+                    </p>
+                    <p>
+                        <i class="fas fa-heart" style="color: #ff6b6b;"></i> 
+                        #Criando #Compartilhando #Inovando
+                    </p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <div class="number">2</div>
+                        <div class="label">Projetos lançados diretamente no GitHub</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">5+</div>
+                        <div class="label">Linguagens dominadas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">🎮</div>
+                        <div class="label">Jogos desenvolvidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">⚡</div>
+                        <div class="label">Otimizações aplicadas</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projetos">
+            <h2 class="section-title"><i class="fas fa-code"></i> Projetos</h2>
+
+            <div class="project-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Buscar projetos..." autocomplete="off" />
+                    <div class="suggestions-box" id="suggestionsBox"></div>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Todos</button>
+                    <button class="filter-btn" data-filter="educacao">Educação</button>
+                    <button class="filter-btn" data-filter="financas">Finanças</button>
+                </div>
+            </div>
+
+            <div class="projects-grid" id="projectsGrid">
+
+                <div class="project-card" data-category="educacao" data-name="OctorTools">
+                    <img class="project-image" 
+                         src="https://private-user-images.githubusercontent.com/219701807/500194541-d46110d6-6b0e-47d8-972c-b539ee1a4570.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODcyNjkwMzcsIm5iZiI6MTc4NzI2ODczNywicGF0aCI6Ii8yMTk3MDE4MDcvNTAwMTk0NTQxLWQ0NjExMGQ2LTZiMGUtNDdkOC05NzJjLWI1MzllZTFhNDU3MC5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwODIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDgyMFQyMzMyMTdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0wODMyNzIzNGZiODMwZjA1MDIzNjZlZDNlNjYyNDYxNjgwNTdkZTJmOGRjNmM3MTRmNTEzOWY1MmM4YTQxM2FjJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.xrlgV7CR3Xo4tyk6OgR2WVpD34dsK4Wgws_vrUogNic" 
+                         alt="Capa do OctorTools" />
+                    <h3>OctorTools</h3>
+                    <p>Central educacional e de produtividade com ferramentas para IA, PDFs, slides e muito mais. Interface leve e responsiva.</p>
+                    <div class="tags">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>Educacional</span>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/RokhenDEV/octortools" target="_blank"><i class="fab fa-github"></i> Repositório</a>
+                        <a href="https://rokhendev.github.io/octortools/" target="_blank"><i class="fas fa-external-link-alt"></i> Site</a>
+                    </div>
+                </div>
+
+                <div class="project-card" data-category="financas" data-name="Coruja Contábil">
+                    <img class="project-image" 
+                         src="https://private-user-images.githubusercontent.com/219701807/639174683-907217d6-3ada-41ae-aa3b-d46839577b33.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3ODcyNjk1OTYsIm5iZiI6MTc4NzI2OTI5NiwicGF0aCI6Ii8yMTk3MDE4MDcvNjM5MTc0NjgzLTkwNzIxN2Q2LTNhZGEtNDFhZS1hYTNiLWQ0NjgzOTU3N2IzMy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwODIwJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDgyMFQyMzQxMzZaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT02YmZlZjJkNWY1Mjk3NDNjYWI0MjI3YmM1ZGI0OTM2MjM5ZmRiZDYzOGUwNmMzM2M2ODllYzJlNzM1Y2MxMWFkJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.bnjRb095sNpYf6Nj0Lc9npbJpr2NjQXk41uZHTd0EpY" 
+                         alt="Capa do Coruja Contábil" />
+                    <h3>Coruja Contábil</h3>
+                    <p>Organize suas contas, calcule totais, veja se o dinheiro é suficiente e gere um relatório em PDF com extratos detalhados.</p>
+                    <div class="tags">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>Finanças</span>
+                    </div>
+                    <div class="card-footer">
+                        <a href="https://github.com/RokhenDEV/coruja-contabil" target="_blank"><i class="fab fa-github"></i> Repositório</a>
+                        <a href="https://rokhendev.github.io/coruja-contabil/" target="_blank"><i class="fas fa-external-link-alt"></i> Site</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <p style="text-align: center; margin-top: 2rem; color: var(--text-muted);">
+                <i class="fas fa-plus-circle"></i> Mais projetos em breve – fique de olho!
+            </p>
+        </section>
+
+        <section id="contato">
+            <h2 class="section-title"><i class="fas fa-paper-plane"></i> Contato</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Vamos criar algo incrível?</h3>
+                    <p>
+                        Se você tem uma ideia, um projeto open source ou só quer trocar uma ideia 
+                        sobre código, games ou automação, estou por aqui.
+                    </p>
+                    <div class="contact-links">
+                        <a href="https://github.com/RokhenDEV" target="_blank"><i class="fab fa-github"></i> github.com/RokhenDEV</a>
+                        <a href="https://t.me/RokhenDEV" target="_blank"><i class="fab fa-telegram-plane"></i> t.me/RokhenDEV</a>
+                        <a href="mailto:rokhendev@gmail.com"><i class="fas fa-envelope"></i> rokhendev@gmail.com</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <span>
+            <img src="https://raw.githubusercontent.com/RokhenDEV/Site_Rokhen/main/Build/Icon.png" 
+                 alt="Logo Rokhen" class="footer-logo" />
+            &copy; 2026 <strong>Rokhen</strong> · Feito com <i class="fas fa-heart" style="color: #ff6b6b;"></i> e <i class="fas fa-coffee"></i>
+        </span>
+        <div class="socials">
+            <a href="https://github.com/RokhenDEV" target="_blank" aria-label="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://t.me/RokhenDEV" target="_blank" aria-label="Telegram"><i class="fab fa-telegram-plane"></i></a>
+            <a href="mailto:rokhendev@gmail.com" aria-label="E-mail"><i class="fas fa-envelope"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            const textElement = document.getElementById('typed-text');
+            if (!textElement) return;
+            const fullText = "Criando. Compartilhando. Inovando.";
+            let index = 0;
+            let isDeleting = false;
+            let speed = 80;
+
+            function typeEffect() {
+                if (!isDeleting) {
+                    textElement.textContent = fullText.substring(0, index + 1);
+                    index++;
+                    if (index === fullText.length) {
+                        setTimeout(() => { isDeleting = true; setTimeout(typeEffect, 400); }, 2000);
+                        return;
+                    }
+                    setTimeout(typeEffect, speed);
+                } else {
+                    textElement.textContent = fullText.substring(0, index - 1);
+                    index--;
+                    if (index === 0) { isDeleting = false; setTimeout(typeEffect, 500); return; }
+                    setTimeout(typeEffect, speed / 2);
+                }
+            }
+            setTimeout(typeEffect, 1000);
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsBox = document.getElementById('suggestionsBox');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            function getProjectData() {
+                const data = [];
+                projectCards.forEach(card => {
+                    const name = card.dataset.name || card.querySelector('h3')?.textContent.trim() || '';
+                    const category = card.dataset.category || '';
+                    if (name) data.push({ name, category });
+                });
+                return data;
+            }
+
+            let projectData = getProjectData();
+            let selectedSuggestionIndex = -1;
+            let currentSuggestions = [];
+
+            function closeSuggestions() {
+                suggestionsBox.classList.remove('active');
+                suggestionsBox.innerHTML = '';
+                selectedSuggestionIndex = -1;
+                currentSuggestions = [];
+            }
+
+            function renderSuggestions(matches, searchTerm) {
+                if (matches.length === 0 || searchTerm === '') {
+                    closeSuggestions();
+                    return;
+                }
+
+                suggestionsBox.innerHTML = '';
+                matches.forEach((item, index) => {
+                    const { name, category } = item;
+                    const div = document.createElement('div');
+                    div.className = 'suggestion-item';
+                    if (index === selectedSuggestionIndex) div.classList.add('active');
+
+                    let icon = 'fa-code';
+                    if (category === 'educacao') icon = 'fa-graduation-cap';
+                    else if (category === 'financas') icon = 'fa-coins';
+
+                    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+                    const highlighted = name.replace(regex, '<span class="highlight">$1</span>');
+
+                    let categoryLabel = category;
+                    if (category === 'educacao') categoryLabel = 'Educação';
+                    else if (category === 'financas') categoryLabel = 'Finanças';
+                    else categoryLabel = category;
+
+                    div.innerHTML = `
+                        <span class="suggestion-icon"><i class="fas ${icon}"></i></span>
+                        <span class="suggestion-name">${highlighted}</span>
+                        ${category ? `<span class="suggestion-category">${categoryLabel}</span>` : ''}
+                    `;
+                    div.dataset.name = name;
+
+                    div.addEventListener('click', function() {
+                        searchInput.value = this.dataset.name;
+                        closeSuggestions();
+                        filterProjects();
+                    });
+
+                    suggestionsBox.appendChild(div);
+                });
+
+                suggestionsBox.classList.add('active');
+                currentSuggestions = matches;
+            }
+
+            function filterProjects() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                const activeFilter = document.querySelector('.filter-btn.active');
+                const filterCategory = activeFilter ? activeFilter.dataset.filter : 'all';
+
+                projectCards.forEach(card => {
+                    const category = card.dataset.category || '';
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const description = card.querySelector('p').textContent.toLowerCase();
+                    const tags = Array.from(card.querySelectorAll('.tags span')).map(span => span.textContent.toLowerCase());
+
+                    const categoryMatch = filterCategory === 'all' || category === filterCategory;
+                    const searchMatch = searchTerm === '' || 
+                        title.includes(searchTerm) || 
+                        description.includes(searchTerm) || 
+                        tags.some(tag => tag.includes(searchTerm));
+
+                    if (categoryMatch && searchMatch) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            }
+
+            searchInput.addEventListener('input', function() {
+                const value = this.value.trim();
+                const searchTermLower = value.toLowerCase();
+
+                filterProjects();
+
+                if (value.length > 0) {
+                    const matches = projectData.filter(item => 
+                        item.name.toLowerCase().includes(searchTermLower)
+                    );
+                    renderSuggestions(matches.slice(0, 6), value);
+                } else {
+                    closeSuggestions();
+                }
+            });
+
+            searchInput.addEventListener('blur', function() {
+                setTimeout(closeSuggestions, 200);
+            });
+
+            searchInput.addEventListener('keydown', function(e) {
+                const items = suggestionsBox.querySelectorAll('.suggestion-item');
+                if (items.length === 0) return;
+
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = (selectedSuggestionIndex + 1) % items.length;
+                    updateActiveSuggestion(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = (selectedSuggestionIndex - 1 + items.length) % items.length;
+                    updateActiveSuggestion(items);
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const activeItem = suggestionsBox.querySelector('.suggestion-item.active');
+                    if (activeItem) {
+                        searchInput.value = activeItem.dataset.name;
+                        closeSuggestions();
+                        filterProjects();
+                    } else {
+                        closeSuggestions();
+                    }
+                } else if (e.key === 'Escape') {
+                    closeSuggestions();
+                }
+            });
+
+            function updateActiveSuggestion(items) {
+                items.forEach((item, index) => {
+                    item.classList.toggle('active', index === selectedSuggestionIndex);
+                });
+                const activeItem = items[selectedSuggestionIndex];
+                if (activeItem) {
+                    activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                }
+            }
+
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterProjects();
+                    closeSuggestions();
+                });
+            });
+
+            filterProjects();
+        });
+
+        const navLinks = document.querySelectorAll('nav a');
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (window.scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            navLinks.forEach(link => {
+                link.style.borderBottomColor = 'transparent';
+                if (link.getAttribute('href') === '#' + current) {
+                    link.style.borderBottomColor = 'var(--accent)';
+                }
+            });
+        });
+
+        console.log('🚀 Rokhen · Site carregado com sucesso!');
+    </script>
+
+</body>
+</html>
