@@ -3,9 +3,6 @@
 > Site pessoal de portfólio com tema dark, foco em desenvolvimento de software, jogos e automações.  
 > Design moderno, responsivo e com funcionalidades interativas (busca, filtros, autocomplete).
 
-![Preview do site](https://github.com/RokhenDEV/rokhen-site/raw/main/preview.png)  
-*(adicione uma imagem de capa se quiser)*
-
 ---
 
 ## ✨ Funcionalidades
